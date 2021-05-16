@@ -18,16 +18,15 @@ class Game {
     return phraseArray;
   }
   /**
-   * Hide starting button and display game HTML
+   * Begins game by selecting a random phrase and displaying it to user
    */
   startGame() {
-    /*getRandomPhrase()
-
-    //this.activePhrase = result
-
-    //display hidden letter box
-
-    addPhraseToDisplay()*/
+    const overlay = document.getElementById("overlay");
+    overlay.style.display = "none";
+    const randomPhrase = this.getRandomPhrase();
+    const phrase = new Phrase(randomPhrase.phrase);
+    phrase.addPhraseToDisplay();
+    this.activePhrase = phrase;
   }
 
   /**
@@ -42,52 +41,95 @@ class Game {
   /**
    * Handle game logic
    */
-  handleInteraction() {
-    //disable picked letter
-    /*if wrong letter
-        add Wrong class
-        call removeLife()*/
-    /*else if good letter
-        dd chosen class
-        showMatchedLetter()
-            if checkForWin()
-                gameOver()
-
-            else
-                n/s
-            */
+  handleInteraction(event, letter) {
+    if (this.activePhrase.checkLetter(letter) === true) {
+      event.className = "chosen";
+      event.disabled = true;
+      this.activePhrase.showMatchedLetter(letter);
+      if (this.checkForWin()) {
+        this.gameOver(true);
+      }
+    } else {
+      event.className = "wrong";
+      event.disabled = true;
+      this.removeLife();
+    }
   }
 
   /**
-   * When wrong answer remove life
+   * Increases the value of the missed property
+   * Removes a life from the scoreboard
+   * Checks if player has remaining lives and ends game if player is out
    */
   removeLife() {
-    /*  replace liveHeart.png
-                by  lostHeart.png
-        this.missed ++;
-            if (this.missed === 5){
-                gameOver()
-            }
-    */
+    const life = document.querySelectorAll(".tries img");
+
+    if (life[this.missed].attributes.src.value === "images/liveHeart.png") {
+      life[this.missed].attributes.src.value = "images/lostHeart.png";
+      this.missed++;
+      if (this.missed === 5) {
+        this.gameOver(false);
+      }
+    }
   }
   /**
-   * Check if player revealed all letter
-   *@param @returns {boolean}
+   * CChecks for winning move
+   * @return {boolean} True if game has been won, false if game wasn't
    */
   checkForWin() {
-    //all letter revealed ? true : false;
+    const letters = document.querySelectorAll("#phrase ul li");
+    const hiddenLetters = document.querySelectorAll(".hide");
+    for (let i = 0; i < letters.length; i++) {
+      if (hiddenLetters.length === 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
   /**
-   * End game and display message Win / Lost!
+   * Displays game over message
+   * @param {boolean} gameWon - Whether or not the user won the game
    */
-  gameOver() {
-    /*
-      display orinal starting screen
-        hide game
+  gameOver(result) {
+    const overlay = document.getElementById("overlay");
+    const message = document.querySelector("#game-over-message");
+    const button = document.querySelector("#btn__reset");
+    button.textContent = "Play again!";
+    button.style.backgroundColor = "gold";
+    overlay.style.display = "";
 
-        replace h1 textContent win or loss
-        start overlay class win or lose
-      
-      */
+    if (result) {
+      overlay.className = "win";
+      message.textContent = "🎉 Great job! 🎉";
+    } else {
+      overlay.className = "lose";
+      message.textContent = "Sorry, better luck next time!";
+    }
+  }
+  /**
+   * @return {reset}
+   */
+  resetGame() {
+    const divPhrase = document.getElementById("phrase");
+    const ul_list = divPhrase.firstElementChild;
+    const guessList = ul_list.children;
+
+    for (let i = guessList.length - 1; i >= 0; i--) {
+      ul_list.removeChild(guessList[i]);
+    }
+
+    const keyRow = document.querySelectorAll(".keyrow button");
+    for (let i = 0; i < keyRow.length; i++) {
+      keyRow[i].className = "key";
+      keyRow[i].disabled = "";
+    }
+
+    this.missed = 0;
+
+    const life = document.querySelectorAll(".tries img");
+    for (let i = 0; i < life.length; i++) {
+      life[i].attributes.src.value = "images/liveHeart.png";
+    }
   }
 }

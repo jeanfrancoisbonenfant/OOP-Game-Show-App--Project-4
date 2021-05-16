@@ -6,14 +6,9 @@ class Phrase {
    * Display phrase on game board
    */
   addPhraseToDisplay() {
-    const mainContainer = document.querySelector(".main-container");
     const letters = this.phrase.split("");
-    const divPhrase = document.createElement("div");
-    divPhrase.id = "phrase";
-    divPhrase.className = "section";
-    const ul_list = document.createElement("ul");
-    divPhrase.appendChild(ul_list);
-
+    const divPhrase = document.getElementById("phrase");
+    const ul_list = divPhrase.firstElementChild;
     letters.forEach((letter) => {
       let letterList = document.createElement("li");
       if (letter === " ") {
@@ -26,30 +21,27 @@ class Phrase {
         ul_list.appendChild(letterList);
       }
     });
-    mainContainer.appendChild(divPhrase);
     return;
-    /**
-     * will transform phrase into a list
-     * each letter get his own li item
-     * append id and class required
-     *  */
   }
 
   /**
-   * @param returns {boolean} Check if selected letter
-   *  match the phrase
+   * Checks if passed letter is in phrase
+   * @param (string) letter - Letter to check
    */
-  checkLetter() {
-    //compare letter selected to phrase to guess
-    //call for showMatchedLetter()
+  checkLetter(letter) {
+    return this.phrase.includes(letter);
   }
 
   /*/
-   * Show letter when guess called
+   * Displays passed letter on screen after a match is found
+   * @param (string) letter - Letter to display
    */
-  showMatchedLetter() {
-    /*find letter guessed position in phrase 
-    Change class from hide to show
-        & unhide letter */
+  showMatchedLetter(letter) {
+    const letters = document.querySelectorAll(".letter");
+    for (let i = 0; i < letters.length; i++) {
+      if (letter === letters[i].textContent) {
+        letters[i].className = "show";
+      }
+    }
   }
 }
