@@ -21,4 +21,4 @@ and background color of tomato.
 Clicking the Phrase Hunter Title on start will change
 background color randomly.
 
-Live link:
+Live link: https://jeanfrancoisbonenfant.github.io/OOP-Game-Show-App--Project-4/
