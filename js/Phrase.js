@@ -3,29 +3,32 @@ class Phrase {
     this.phrase = phrase.toLowerCase();
   }
   /**
-   * Display phrase on game board
+   * Split picked phrase in single caracter array
+   * Create Li element for each letter
+   * append letters to ul element
+   * Give proper className to space & letter
    */
   addPhraseToDisplay() {
     const letters = this.phrase.split("");
     const divPhrase = document.getElementById("phrase");
     const ul_list = divPhrase.firstElementChild;
+
     letters.forEach((letter) => {
       let letterList = document.createElement("li");
+      letterList.textContent = letter;
+      ul_list.appendChild(letterList);
+
       if (letter === " ") {
         letterList.className = "space";
-        letterList.textContent = letter;
-        ul_list.appendChild(letterList);
       } else {
         letterList.classList = `hide letter ${letter}`;
-        letterList.textContent = letter;
-        ul_list.appendChild(letterList);
       }
     });
     return;
   }
 
   /**
-   * Checks if passed letter is in phrase
+   * Checks if current phrase includes picked letter
    * @param (string) letter - Letter to check
    */
   checkLetter(letter) {
