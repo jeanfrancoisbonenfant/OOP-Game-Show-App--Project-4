@@ -29,6 +29,7 @@ for (let i = 0; i < keyboard.length; i++) {
     game.handleInteraction(e.target, guess);
   });
 }
+
 /**
 *** Exceed expectation Section ***
 
@@ -45,6 +46,7 @@ document.addEventListener("keydown", (e) => {
     game.startGame();
   }
 });
+
 /**
  *** Exceed expectation Section ***
  *
