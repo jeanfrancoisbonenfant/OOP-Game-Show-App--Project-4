@@ -66,6 +66,10 @@ button {
   width: 200px;
   margin: 0 auto;
 }
+#btn__reset:hover {
+  transform: scale(1.5) rotate(360deg);
+  background-color: tomato;
+}
 
 .main-container {
   display: flex;

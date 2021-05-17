@@ -68,3 +68,26 @@ document.addEventListener("keydown", (e) => {
     }
   }
 });
+
+//access H2 title element
+const h2 = document.querySelector(".title");
+
+//access start Overlay element
+const start = document.querySelector(".start");
+
+//title click event to change start background color randomly
+h2.addEventListener("click", (e) => {
+  /*Function colorGenerator simply create a random number on 256base
+ to be pass inside randomRGB to create a random RGB color.*/
+  const colorGenerator = () => Math.floor(Math.random() * 256);
+
+  /*Function randomRGB take the random number created by colorGenerator
+to form a variable to hold a RGB color layout RGB(RED,GREEN,BLUE,Opacity)
+*/
+  const randomRGB = (value) => {
+    const color = `rgb(${value()}, ${value()}, ${value()})`;
+    return color;
+  };
+  //change overlay backtground color randomly
+  start.style.backgroundColor = randomRGB(colorGenerator);
+});
