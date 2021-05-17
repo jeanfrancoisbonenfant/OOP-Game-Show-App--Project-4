@@ -26,10 +26,8 @@ class Game {
   startGame() {
     const overlay = document.getElementById("overlay");
     overlay.style.display = "none";
-    const randomPhrase = this.getRandomPhrase();
-    const phrase = new Phrase(randomPhrase.phrase);
-    phrase.addPhraseToDisplay();
-    this.activePhrase = phrase;
+    this.activePhrase = new Phrase(this.getRandomPhrase().phrase);
+    this.activePhrase.addPhraseToDisplay();
   }
 
   /**
@@ -49,16 +47,18 @@ class Game {
   * if key not part of the ActivePhrase all removeLife method.
    */
   handleInteraction(event, letter) {
-    event.disabled = true;
-    if (this.activePhrase.checkLetter(letter)) {
-      event.className = "chosen";
-      this.activePhrase.showMatchedLetter(letter);
-      if (this.checkForWin()) {
-        this.gameOver(true);
+    if (event.disabled === false) {
+      event.disabled = true;
+      if (this.activePhrase.checkLetter(letter)) {
+        event.className = "chosen";
+        this.activePhrase.showMatchedLetter(letter);
+        if (this.checkForWin()) {
+          this.gameOver(true);
+        }
+      } else {
+        event.className = "wrong";
+        this.removeLife();
       }
-    } else {
-      event.className = "wrong";
-      this.removeLife();
     }
   }
   /**
